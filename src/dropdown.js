@@ -105,7 +105,7 @@ export default class MenuBar {
     const dropDownArrow = document.createElement("i");
 
     this.#addClassesToElement(dropDownContainer, classNames, "menubar-dropdown");
-    dropDownLinks.classList.add("dropdown-links", "collapsed");
+    dropDownLinks.classList.add("dropdown-links");//, "collapsed");
     dropDownArrow.classList.add("arrow", "down");
 
     links.forEach((pair) => {
