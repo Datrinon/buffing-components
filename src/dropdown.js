@@ -125,4 +125,30 @@ export default class MenuBar {
 
     return this.menu;
   }
+
+    /**
+   * Add elements to a given menu.
+   * 
+   * @param {MenuBar} menu - The menu to put elements on.
+   * @param {*} elements - The elements to add. Follow a template like navElements.js,
+   * as in, an object with a type, text, and href attributes.
+   */
+  static addElementsToHeader(menu, elements) {
+    elements.forEach((elem) => {
+      switch (elem.type) {
+        case "logo":
+          menu.addTextLogo(elem.text);
+          break;
+        case "link":
+          menu.addLink(elem.text, elem.href);
+          break;
+        case "dropdown":
+          menu.addDropdown(elem.text, elem.links);
+          break;
+        default: {
+          console.log(`${elem.type} has not been implemented yet`);
+        }
+      }
+    });
+  }
 }
