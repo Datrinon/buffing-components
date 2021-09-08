@@ -4,7 +4,7 @@
  * getMenuBar() to get the element reference, which you can use that to append to 
  * a parent of your choice.
  */
-export class MenuBar {
+export default class MenuBar {
   
   /**
    * The singleton instance of MenuBar, since only one MenuBar should ever exist on a webpage.
@@ -19,7 +19,7 @@ export class MenuBar {
    * An array containing all the clickable elements on the menu.
    * @type {HTMLElement[]}
    */
-  _clickables;
+  #clickables;
 
   constructor(className) {
     if (MenuBar._instance !== undefined) {
@@ -30,16 +30,16 @@ export class MenuBar {
     this.menu = document.createElement("header");
     this.menu.classList.add(className);
 
-    this._clickables = [];
+    this.#clickables = [];
   }
 
   /**
    * A helper method which adds classes to a given element.
    * @param {HTMLElement} elem - The element to append classes to.
-   * @param {*} classNames - The classnames to give the element.
-   * @param {*} defaultClass - The classname that said element should always have.
+   * @param {string[]} classNames - The classnames to give the element.
+   * @param {string} defaultClass - The classname that said element should always have.
    * */ 
-  _addClassesToElement(elem, classNames, defaultClass) {
+  #addClassesToElement(elem, classNames, defaultClass) {
     classNames.push(defaultClass);
     elem.classList.add(classNames);
   }
@@ -57,19 +57,24 @@ export class MenuBar {
     
     link.textContent = name;
     link.setAttribute("href", href);
-    this._addClassesToElement(link, classNames, "menubar-link-clickable");
+    this.#addClassesToElement(link, classNames, "menubar-link-clickable");
 
-    this._clickables.push(link);
+    this.#clickables.push(link);
   }
 
   /**
-   * Create and add an icon to the menu. Useful for a company logo.
+   * Create and add a text logo to the menu. Useful for a company logo.
    * 
-   * @param {string} icon - The icon that should be displayed. 
    * @param {string} text - Accompanying text to display with the icon.
+   * @param {string[]} classNames - The class names the link should possess. By
+   * default, it obtains the class name 'menu-bar-clickable'.
    */
-  addIcon(){
-    // TODO STUB. To be completed later!!
+  addTextLogo(text, ...classNames){
+    const textLogo = document.createElement("h1");
+    textLogo.textContent = text;
+    this.#addClassesToElement(textLogo, classNames, "site-logo");
+    
+    this.#clickables.push(textLogo);
   }
 
   /**
@@ -82,12 +87,12 @@ export class MenuBar {
    */
   addDropdown(name, links, ...classNames) {
     const dropDownContainer = document.createElement("div");
-    // Three components.
+    // Three components to a dropdown, the label, the navlinks, and the arrow.
     const dropDownLabel = document.createElement("h2");
     const dropDownLinks = document.createElement("ul");
     const dropDownArrow = document.createElement("svg");
 
-    this._addClassesToElement(dropDownContainer, classNames, "menubar-dropdown");
+    this.#addClassesToElement(dropDownContainer, classNames, "menubar-dropdown");
     dropDownLinks.classList.add("collapsed");
 
     links.forEach((pair) => {
@@ -106,13 +111,13 @@ export class MenuBar {
 
     dropDownContainer.append(dropDownLabel, dropDownLinks, dropDownArrow);
 
-    this._clickables.push(dropDownContainer);
+    this.#clickables.push(dropDownContainer);
   }
 
   get menu() {
     let self = this;
     // TODO: Come back and verify this method if you get duplicate elements, shouldn't based on the nature of the method.
-    self._clickables.forEach((clickable) => self.menu.append(clickable));
+    self.#clickables.forEach((clickable) => self.menu.append(clickable));
 
     return this.menu;
   }
