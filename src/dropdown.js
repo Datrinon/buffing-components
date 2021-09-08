@@ -9,12 +9,12 @@ export default class MenuBar {
   /**
    * The singleton instance of MenuBar, since only one MenuBar should ever exist on a webpage.
    */
-  static _instance;
+  static #instance;
   /**
    * The menu element.
    * @type {HTMLElement}
    */
-  _menu;
+  menu;
   /**
    * An array containing all the clickable elements on the menu.
    * @type {HTMLElement[]}
@@ -22,10 +22,10 @@ export default class MenuBar {
   #clickables;
 
   constructor(className) {
-    if (MenuBar._instance !== undefined) {
-      return MenuBar._instance;
+    if (MenuBar.#instance !== undefined) {
+      return MenuBar.#instance;
     } 
-    MenuBar._instance = this;
+    MenuBar.#instance = this;
 
     this.menu = document.createElement("header");
     this.menu.classList.add(className);
@@ -99,10 +99,10 @@ export default class MenuBar {
       let linkWrapper = document.createElement("li");
       let link = document.createElement("a");
       
-      link.textContent = pair.name;
+      link.textContent = pair.text;
       link.setAttribute("href", pair.href);
 
-      linkWrapper.classList.append("menubar-dropdown-link");
+      linkWrapper.classList.add("menubar-dropdown-link");
       linkWrapper.append(link);
       dropDownLinks.append(linkWrapper);
     });
@@ -114,10 +114,14 @@ export default class MenuBar {
     this.#clickables.push(dropDownContainer);
   }
 
-  get menu() {
+  /**
+   * Get the menu with all the clickables that has been added to it.
+   * @returns {HTMLElement} - menu.
+   */
+  getMenu() {
     let self = this;
     // TODO: Come back and verify this method if you get duplicate elements, shouldn't based on the nature of the method.
-    self.#clickables.forEach((clickable) => self.menu.append(clickable));
+    this.#clickables.forEach((clickable) => self.menu.append(clickable));
 
     return this.menu;
   }

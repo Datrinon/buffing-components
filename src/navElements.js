@@ -5,34 +5,40 @@ const NAV_ELEMENTS = [
   },
   {
     type: "link",
-    name: "Home",
+    text: "Home",
     href: "#"
   },
   {
     type: "dropdown",
-    name: "Products",
+    text: "Products",
     links: [
       {
-        name: "ConsumerSoft Trader",
+        text: "ConsumerSoft Trader",
         href: "#"
       },
       {
-        name: "Options Analyzer",
+        text: "Options Analyzer",
         href: "#",
       },
       {
-        name: "Briskbooks Budgeting",
+        text: "Briskbooks Budgeting",
         href: "#",
       },
       {
-        name: "Slicken Money Manager",
+        text: "Slicken Money Manager",
         href: "#"
       }
     ]
   },
   {
     type: "link",
-    name: "Our Story"
+    text: "Our Story",
+    href: "#"
+  },
+  {
+    type: "link",
+    text: "Contact Us",
+    href: "#"
   }
 ]
 
