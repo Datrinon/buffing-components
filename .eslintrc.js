@@ -1,3 +1,5 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable no-undef */
 module.exports = {
   env: {
     browser: true,
