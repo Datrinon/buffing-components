@@ -1,7 +1,11 @@
+import logo from './logo.png';
+
+
 const NAV_ELEMENTS = [
   {
     type: "logo",
-    text: "Raven Software"
+    text: "Raven Rock Software",
+    icon: logo
   },
   {
     type: "link",

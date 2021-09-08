@@ -66,15 +66,27 @@ export default class MenuBar {
    * Create and add a text logo to the menu. Useful for a company logo.
    * 
    * @param {string} text - Accompanying text to display with the icon.
-   * @param {string[]} classNames - The class names the link should possess. By
-   * default, it obtains the class name 'menu-bar-clickable'.
+   * @param {string} icon - Filepath representing an icon. Null if you don't need an icon.
+   * @param {string[]} classNames - Optional class names the link should possess. By
+   * default, it obtains the class name 'menu-bar-clickable'. 
    */
-  addTextLogo(text, ...classNames){
+  addLogo(text, icon=null, ...classNames){
+    const logo = document.createElement("div");
     const textLogo = document.createElement("h1");
+    this.#addClassesToElement(logo, classNames, "site-logo");
+
+    if (icon !== null) {
+      const iconElem = document.createElement("img");
+      iconElem.setAttribute("src", icon);
+      console.log(icon);
+      logo.append(iconElem);
+    }
+
     textLogo.textContent = text;
-    this.#addClassesToElement(textLogo, classNames, "site-logo");
-    
-    this.#clickables.push(textLogo);
+
+    logo.append(textLogo);
+
+    this.#clickables.push(logo);
   }
 
   /**
@@ -82,7 +94,7 @@ export default class MenuBar {
    * 
    * @param {string} name - The name of the dropdown menu.
    * @param { {"name" : "href"}[] } links - An array of name:href object pairs.
-   * @param {string[]} className - The class names the link should possess. By
+   * @param {string[]} className - Optional class names the link should possess. By
    * default, it obtains the class name 'menu-bar-clickable'.
    */
   addDropdown(name, links, ...classNames) {
@@ -124,7 +136,10 @@ export default class MenuBar {
    */
   #toggleDropdown(e) {
     const dropdown = e.currentTarget.querySelector("ul");
+    const dropdownArrow = e.currentTarget.querySelector(".arrow");
     dropdown.classList.toggle("collapsed");
+
+    dropdownArrow.classList.toggle("up");
   }
 
 
@@ -151,7 +166,7 @@ export default class MenuBar {
     elements.forEach((elem) => {
       switch (elem.type) {
         case "logo":
-          menu.addTextLogo(elem.text);
+          menu.addLogo(elem.text, elem.icon);
           break;
         case "link":
           menu.addLink(elem.text, elem.href);
