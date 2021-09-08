@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Urbanist&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
 
 
 :root {
-  --logo-font: "Yanone Kaffeesatz";
-  --header-font: "Urbanist";
+  --logo-font: "Didact Gothic";
+  --header-font: "Yanone Kaffeesatz";
 }
 
 .dropdown-menu {
@@ -16,7 +16,7 @@
   font-family: var(--logo-font);
   margin: 0 15px;
   font-size: 110%;
-  width: 150px;
+  width: 180px;
   display: flex;
   flex-direction: row;
 
@@ -24,21 +24,24 @@
 
 .site-logo img {
   width: 50px;
-  margin: 0 auto;
+  margin: 0 5px;
   display: block;
 }
 
 .site-logo h1 {
-  width: fit-content;
+  width: 50%;
   align-self:center;
+  font-weight: bold;
 }
 
 .menubar-link-clickable, .menubar-dropdown {
   padding: 10px;
   margin: 0 5px;
-  font-weight: 600;
+  font-size: 125%;
+  font-weight: 400;
   text-decoration: none;
-  text-color: black;
+  color: black;
+  position: relative;
 }
 
 .dropdown-menu {
@@ -46,6 +49,15 @@
   flex-direction: row;
   border: 1px solid black;
   align-items: center;
+}
+
+.menubar-dropdown-link {
+  padding: 10px 2px;
+}
+
+.menubar-dropdown-link a {
+  text-decoration: none;
+  color: black;
 }
 
 .menubar-dropdown .arrow {
@@ -79,6 +91,12 @@
   max-height: fit-content;
   display: unset;
   position: absolute;
+  top: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 200%;
+  top: 105%;
+  left: 0;
 }
 
 .collapsed {
