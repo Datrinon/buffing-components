@@ -1,3 +1,8 @@
 class MenuBar {
-  constructor() {}
+  
+  static _instance;
+
+  constructor() {
+
+  }
 }
