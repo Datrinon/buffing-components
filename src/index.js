@@ -1,5 +1,6 @@
 // css imports
 import './index.css';
+import './reset.css';
 // js imports
 import MenuBar from './dropdown';
 import NAV_ELEMENTS from './navElements';

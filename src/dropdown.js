@@ -90,10 +90,11 @@ export default class MenuBar {
     // Three components to a dropdown, the label, the navlinks, and the arrow.
     const dropDownLabel = document.createElement("h2");
     const dropDownLinks = document.createElement("ul");
-    const dropDownArrow = document.createElement("svg");
+    const dropDownArrow = document.createElement("i");
 
     this.#addClassesToElement(dropDownContainer, classNames, "menubar-dropdown");
-    dropDownLinks.classList.add("collapsed");
+    dropDownLinks.classList.add("dropdown-links", "collapsed");
+    dropDownArrow.classList.add("arrow", "down");
 
     links.forEach((pair) => {
       let linkWrapper = document.createElement("li");
@@ -106,13 +107,26 @@ export default class MenuBar {
       linkWrapper.append(link);
       dropDownLinks.append(linkWrapper);
     });
-
     dropDownLabel.textContent = name;
 
-    dropDownContainer.append(dropDownLabel, dropDownLinks, dropDownArrow);
+    dropDownLabel.append(dropDownArrow);
+    dropDownContainer.append(dropDownLabel, dropDownLinks);
+    dropDownContainer.addEventListener("click", this.#toggleDropdown);
 
     this.#clickables.push(dropDownContainer);
   }
+
+  /**
+   * A callback to show dropdown menu on hover.
+   * 
+   * @param {*} e - Event. Used to get the current link being hovered over,
+   * and then use it to find the dropdown links.
+   */
+  #toggleDropdown(e) {
+    const dropdown = e.currentTarget.querySelector("ul");
+    dropdown.classList.toggle("collapsed");
+  }
+
 
   /**
    * Get the menu with all the clickables that has been added to it.
