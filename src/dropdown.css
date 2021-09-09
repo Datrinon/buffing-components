@@ -69,6 +69,7 @@
 .menubar-dropdown .arrow {
   position: relative;
   left: 5px;
+  bottom: 1px;
 }
 
 .dropdown-menu > * {
@@ -119,11 +120,6 @@
   }
 }
 
-.collapsed {
-  max-height: 0px;
-  display: none;
-}
-
 .menu-icon {
   display: none;
 }
@@ -139,7 +135,12 @@
     color: red;  
   }
 
+  .site-logo {
+    margin: 0 auto;  
+  }
+
   .dropdown-menu {
+    position: relative;
     display: grid;
     grid-template-areas: 
     "icon logo"
@@ -156,11 +157,14 @@
   }
 
   .navigation {
+    position: absolute;
     display: flex;
     flex-direction: column;
     background-color: white;
     border: 1px solid red;
     grid-area: menu;
+    top: 100%;
+    width: 100vw;
   }
 
   .dropdown-links {
@@ -171,6 +175,11 @@
   .menubar-dropdown-link {
     border-bottom: 1px solid grey;
   }
+}
+
+.collapsed {
+  max-height: 0px;
+  display: none;
 }
 
 /*

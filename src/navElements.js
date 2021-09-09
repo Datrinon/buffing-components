@@ -5,7 +5,8 @@ const NAV_ELEMENTS = [
   {
     type: "logo",
     text: "Raven Rock Software",
-    icon: logo
+    icon: logo,
+    href: ""
   },
   {
     type: "dropdown",

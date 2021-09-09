@@ -11,3 +11,9 @@ body {
   font-size: 125%;
   font-weight: bold;
 }
+
+@media (max-width: 600px) {
+  .sample-text {
+    width: 80vw;
+  }
+}

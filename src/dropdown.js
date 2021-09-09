@@ -71,6 +71,11 @@ export default class MenuBar {
 
     container.classList.add("menu-icon");
 
+    container.addEventListener("click", () => {
+      console.log("triggered!!");
+      document.querySelector(".navigation").classList.toggle("collapsed");
+    });
+
     this.#clickables.push(container);
   }
 
@@ -92,9 +97,10 @@ export default class MenuBar {
       if (e.matches) {
         console.log("mobile breakpoint active, Dan hide menu when clicked off...");
         window.onclick = null;
+        document.querySelector(".navigation").classList.add("collapsed");
       } else {
         console.log("mobile breakpoint inactive, collapsing any active menus.");
-
+        document.querySelector(".navigation").classList.remove("collapsed");
         document.querySelectorAll(".menubar-dropdown.active")
             .forEach(() => {
               MenuBar.closeActiveDropdown();
@@ -144,7 +150,7 @@ export default class MenuBar {
    * @param {string[]} classNames - Optional class names the link should possess. By
    * default, it obtains the class name 'menu-bar-clickable'. 
    */
-  addLogo(text, icon=null, ...classNames){
+  addLogo(text, icon=null, href="", ...classNames){
     const logo = document.createElement("div");
     const textLogo = document.createElement("h1");
     this.#addClassesToElement(logo, classNames, "site-logo");
@@ -159,6 +165,8 @@ export default class MenuBar {
     textLogo.textContent = text;
 
     logo.append(textLogo);
+
+    logo.setAttribute("href", href);
 
     this.#clickables.push(logo);
   }
@@ -283,7 +291,7 @@ export default class MenuBar {
     elements.forEach((elem) => {
       switch (elem.type) {
         case "logo":
-          menu.addLogo(elem.text, elem.icon);
+          menu.addLogo(elem.text, elem.icon, elem.href);
           break;
         case "link":
           menu.addLink(elem.text, elem.href);
