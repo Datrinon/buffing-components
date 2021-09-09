@@ -56,6 +56,10 @@
   padding: 10px 2px;
 }
 
+.menubar-dropdown-link:hover {
+  background-color: slategray;
+}
+
 .menubar-dropdown-link a {
   text-decoration: none;
   color: black;
@@ -67,7 +71,7 @@
 }
 
 .dropdown-menu > * {
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .arrow {

@@ -127,7 +127,13 @@ export default class MenuBar {
     dropDownContainer.addEventListener("click", this.#toggleDropdown);
     
     window.onclick = (e) => {
-      if (!e.target.matches(".menubar-dropdown.active, .menubar-dropdown.active *")) {
+      const active = document.querySelector(".menubar-dropdown.active");
+      // no need to do anything if no dropdown is active.
+      if (!active) { 
+        return;
+      }
+      // only close when the element clicked is not the dropdown itself or its child.
+      if (!e.target.matches(".menubar-dropdown") && !active.contains(e.target)) {
         MenuBar.closeActiveDropdown();
       }
     };
@@ -159,9 +165,9 @@ export default class MenuBar {
    * and then use it to find the dropdown links.
    */
   #toggleDropdown(e) {
-    // first, check if any dropdowns are active. If so, close them.
+    // first, check if another dropdown is active
     const activeDropdown = document.querySelector(".menubar-dropdown.active");
-    if (activeDropdown !== null) {
+    if (activeDropdown !== null && !activeDropdown.contains(e.currentTarget)) {
       MenuBar.closeActiveDropdown();
     }
 
