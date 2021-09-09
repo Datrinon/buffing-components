@@ -105,7 +105,7 @@ export default class MenuBar {
     const dropDownArrow = document.createElement("i");
 
     this.#addClassesToElement(dropDownContainer, classNames, "menubar-dropdown");
-    dropDownLinks.classList.add("dropdown-links");//, "collapsed");
+    dropDownLinks.classList.add("dropdown-links", "collapsed");
     dropDownArrow.classList.add("arrow", "down");
 
     links.forEach((pair) => {
@@ -123,7 +123,13 @@ export default class MenuBar {
 
     dropDownLabel.append(dropDownArrow);
     dropDownContainer.append(dropDownLabel, dropDownLinks);
+
     dropDownContainer.addEventListener("click", this.#toggleDropdown);
+    window.addEventListener("click", (e) => {
+      if (!e.target.matches(".menubar-dropdown, .menubar-dropdown *")) {
+        document.querySelector(".dropdown-links").classList.add("collapsed");
+      }
+    });
 
     this.#clickables.push(dropDownContainer);
   }
