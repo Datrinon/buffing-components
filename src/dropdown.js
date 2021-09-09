@@ -22,7 +22,14 @@ export default class MenuBar {
   #clickables;
   #menuItems;
 
-  constructor(className) {
+  /**
+   * The breakpoint to be set to convert the menu bar to a mobile format. In px.
+   * When a MenuBar reference is initialized, the default breakpoint is 860px.
+   * @type {MediaQueryList}
+   */
+  mobileBreakpointListener;
+
+  constructor(className, breakpoint = 860) {
     if (MenuBar.#instance !== undefined) {
       return MenuBar.#instance;
     } 
@@ -35,6 +42,9 @@ export default class MenuBar {
 
     this.#menuItems = document.createElement("nav");
     this.#menuItems.classList.add("navigation");
+
+    this.mobileBreakpointListener = window.matchMedia(`(max-width:${breakpoint}px)`);
+    this.#initializeResponsiveMenu();
 
     this.#addHamburgerIcon();
   }
@@ -74,6 +84,39 @@ export default class MenuBar {
     classNames.push(defaultClass);
     elem.classList.add(classNames);
   }
+
+  #initializeResponsiveMenu() {
+    window.onclick = null;
+    this.mobileBreakpointListener.addEventListener("change", (e) => {
+      // if the width of the screen is 860px or below...:
+      if (e.matches) {
+        console.log("mobile breakpoint active, Dan hide menu when clicked off...");
+        window.onclick = null;
+      } else {
+        console.log("mobile breakpoint inactive, collapsing any active menus.");
+
+        document.querySelectorAll(".menubar-dropdown.active")
+            .forEach(() => {
+              MenuBar.closeActiveDropdown();
+            });
+
+        if (window.onclick === null) {
+          window.onclick = (e) => {
+            const active = document.querySelector(".menubar-dropdown.active");
+            // no need to do anything if no dropdown is active.
+            if (!active) { 
+              return;
+            }
+            // only close when the element clicked is not the dropdown itself or its child.
+            if (!e.target.matches(".menubar-dropdown") && !active.contains(e.target)) {
+              MenuBar.closeActiveDropdown();
+            }
+          };
+        }
+      }
+    });
+  }
+
 
   /**
    * Create and add a link to the menu.
@@ -155,25 +198,13 @@ export default class MenuBar {
     dropDownLabel.append(dropDownArrow);
     dropDownContainer.append(dropDownLabel, dropDownLinks);
 
-    dropDownContainer.addEventListener("click", this.#toggleDropdown);
-    
-    window.onclick = (e) => {
-      const active = document.querySelector(".menubar-dropdown.active");
-      // no need to do anything if no dropdown is active.
-      if (!active) { 
-        return;
-      }
-      // only close when the element clicked is not the dropdown itself or its child.
-      if (!e.target.matches(".menubar-dropdown") && !active.contains(e.target)) {
-        MenuBar.closeActiveDropdown();
-      }
-    };
+    dropDownContainer.addEventListener("click", (e) => this.#toggleDropdown.call(this, e));
 
     this.#clickables.push(dropDownContainer);
   }
 
   /**
-   * Used for closing any active dropdowns if they're active and the user clicks 
+   * Used for closing any active dropdowns, if they're active or the user clicks 
    * any area outside of it on the window.
    */
   static closeActiveDropdown() {
@@ -196,10 +227,11 @@ export default class MenuBar {
    * and then use it to find the dropdown links.
    */
   #toggleDropdown(e) {
-    // first, check if another dropdown is active
-    const activeDropdown = document.querySelector(".menubar-dropdown.active");
-    if (activeDropdown !== null && !activeDropdown.contains(e.currentTarget)) {
-      MenuBar.closeActiveDropdown();
+    if (!this.mobileBreakpointListener.matches) {
+      const activeDropdown = document.querySelector(".menubar-dropdown.active");
+      if (activeDropdown !== null && !activeDropdown.contains(e.currentTarget)) {
+        MenuBar.closeActiveDropdown();
+      }
     }
 
     const dropdown = e.currentTarget.querySelector("ul");
