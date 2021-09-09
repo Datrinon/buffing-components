@@ -20,6 +20,7 @@ export default class MenuBar {
    * @type {HTMLElement[]}
    */
   #clickables;
+  #menuItems;
 
   constructor(className) {
     if (MenuBar.#instance !== undefined) {
@@ -31,6 +32,36 @@ export default class MenuBar {
     this.menu.classList.add(className);
 
     this.#clickables = [];
+
+    this.#menuItems = document.createElement("nav");
+    this.#menuItems.classList.add("navigation");
+
+    this.#addHamburgerIcon();
+  }
+
+  /**
+   * Adds a hamburger icon to clickables.
+   */
+  #addHamburgerIcon() {
+    const svgNs = "http://www.w3.org/2000/svg";
+    const container = document.createElementNS(svgNs, "svg");
+    container.setAttribute("viewBox", "0 0 100 80");
+    container.setAttribute("width", 40);
+    container.setAttribute("height", 40);
+
+    for (let i = 0; i < 3; i++) {
+      let y = 30 * i;
+      const line = document.createElementNS(svgNs, "rect");
+      line.setAttribute("width", 100);
+      line.setAttribute("height", 20);
+      line.setAttribute("y", y);
+
+      container.append(line);
+    }
+
+    container.classList.add("menu-icon");
+
+    this.#clickables.push(container);
   }
 
   /**
@@ -181,15 +212,22 @@ export default class MenuBar {
     dropdownArrow.classList.toggle("up");
   }
 
-
   /**
    * Get the menu with all the clickables that has been added to it.
    * @returns {HTMLElement} - menu.
    */
   getMenu() {
     let self = this;
-    // TODO: Come back and verify this method if you get duplicate elements, shouldn't based on the nature of the method.
-    this.#clickables.forEach((clickable) => self.menu.append(clickable));
+    this.#clickables.forEach((clickable) => {
+      if (clickable.classList.contains("menubar-link-clickable")
+          || clickable.classList.contains("menubar-dropdown")) {
+            self.#menuItems.append(clickable);
+      } else {
+        self.menu.append(clickable);
+      }
+    });
+
+    this.menu.append(this.#menuItems);
 
     return this.menu;
   }

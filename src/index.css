@@ -1,126 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
-
-
-:root {
-  --logo-font: "Julius Sans One";
-  --header-font: "Didact Gothic";
+body {
+  font-family: 'Trebuchet MS';
+}
+.sample-text {
+  width: 50vw;
+  max-width: 500px;
+  margin: 15px auto;
 }
 
-.dropdown-menu {
-  font-family: var(--header-font);
-  padding: 5px 0;
-}
-
-.site-logo {
-  font-family: var(--logo-font);
-  margin: 0 15px;
-  font-size: 110%;
-  width: 180px;
-  display: flex;
-  flex-direction: row;
-
-}
-
-.site-logo img {
-  width: 50px;
-  margin: 0 5px;
-  display: block;
-}
-
-.site-logo h1 {
-  width: 50%;
-  align-self:center;
+.sample-text h1 {
+  font-size: 125%;
   font-weight: bold;
 }
-
-.menubar-link-clickable, .menubar-dropdown {
-  padding: 10px;
-  margin: 0 5px;
-  font-size: 125%;
-  font-weight: 400;
-  text-decoration: none;
-  color: black;
-  position: relative;
-  cursor: pointer;
-}
-
-.dropdown-menu {
-  display: flex;
-  flex-direction: row;
-  border: 1px solid black;
-  align-items: center;
-}
-
-.menubar-dropdown-link {
-  padding: 10px 2px;
-}
-
-.menubar-dropdown-link:hover {
-  background-color: slategray;
-}
-
-.menubar-dropdown-link a {
-  text-decoration: none;
-  color: black;
-}
-
-.menubar-dropdown .arrow {
-  position: relative;
-  left: 5px;
-}
-
-.dropdown-menu > * {
-  /* border: 1px solid red; */
-}
-
-.arrow {
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
-}
-
-.down {
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-}
-
-.up {
-  transform: rotate(-135deg);
-  -webkit-transform: rotate(-135deg);
-}                                         
-
-.dropdown-links {
-  max-height: fit-content;
-  display: unset;
-  position: absolute;
-  top: 5px;
-  border: 1px solid black;
-  border-radius: 5px;
-  width: 200%;
-  top: 105%;
-  left: 0;
-  animation: popIn 0.25s ease-in;
-}
-
-@keyframes popIn {
-  0% {
-    opacity: 0.4;
-    transform-origin: top left;
-    transform: translate(0, -15%);
-  }
-  50% {
-    transform: translate(0, -3%);
-  }
-  100% {
-    opacity: 1.0;
-  }
-}
-
-.collapsed {
-  max-height: 0px;
-  display: none;
-}
-
-

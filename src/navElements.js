@@ -8,11 +8,6 @@ const NAV_ELEMENTS = [
     icon: logo
   },
   {
-    type: "link",
-    text: "Home",
-    href: "#"
-  },
-  {
     type: "dropdown",
     text: "Products",
     links: [
@@ -56,6 +51,11 @@ const NAV_ELEMENTS = [
   {
     type: "link",
     text: "Contact Us",
+    href: "#"
+  },
+  {
+    type: "link",
+    text: "Support",
     href: "#"
   }
 ]
