@@ -126,7 +126,11 @@ export default class MenuBar {
 
     dropDownContainer.addEventListener("click", this.#toggleDropdown);
     
-    window.onclick = this.#closeDropdown;
+    window.onclick = (e) => {
+      if (!e.target.matches(".menubar-dropdown.active, .menubar-dropdown.active *")) {
+        MenuBar.closeActiveDropdown();
+      }
+    };
 
     this.#clickables.push(dropDownContainer);
   }
@@ -134,30 +138,33 @@ export default class MenuBar {
   /**
    * Used for closing any active dropdowns if they're active and the user clicks 
    * any area outside of it on the window.
-   * @param {*} e 
    */
-  #closeDropdown(e) {
+  static closeActiveDropdown() {
     // If the user clicks anywhere that isn't the current active dropdown...
-    if (!e.target.matches(".menubar-dropdown.active, .menubar-dropdown.active *")) {
-      const activeDropdownBtn = document.querySelector(".menubar-dropdown.active");
-      const activeDropdown = activeDropdownBtn.querySelector(".dropdown-links");
-      const activeArrow = activeDropdownBtn.querySelector(".arrow");
-      
-      // collapse it.
-      activeDropdownBtn.classList.remove("active");
-      activeDropdown.classList.add("collapsed");
-      activeArrow.classList.remove("up");
-      activeArrow.classList.add("down");
-    }
+    const activeDropdownBtn = document.querySelector(".menubar-dropdown.active");
+    const activeDropdown = activeDropdownBtn.querySelector(".dropdown-links");
+    const activeArrow = activeDropdownBtn.querySelector(".arrow");
+    
+    // collapse it.
+    activeDropdownBtn.classList.remove("active");
+    activeDropdown.classList.add("collapsed");
+    activeArrow.classList.remove("up");
+    activeArrow.classList.add("down");
   }
 
   /**
-   * A callback to show dropdown menu on hover.
+   * A callback to show a dropdown menu. Assign this to buttons on the navbar.
    * 
    * @param {*} e - Event. Used to get the current link being hovered over,
    * and then use it to find the dropdown links.
    */
   #toggleDropdown(e) {
+    // first, check if any dropdowns are active. If so, close them.
+    const activeDropdown = document.querySelector(".menubar-dropdown.active");
+    if (activeDropdown !== null) {
+      MenuBar.closeActiveDropdown();
+    }
+
     const dropdown = e.currentTarget.querySelector("ul");
     const dropdownArrow = e.currentTarget.querySelector(".arrow");
     

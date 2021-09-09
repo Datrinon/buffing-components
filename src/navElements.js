@@ -35,6 +35,20 @@ const NAV_ELEMENTS = [
     ]
   },
   {
+    type: "dropdown",
+    text: "Locations",
+    links: [
+      {
+        text: "Wilshire",
+        href: "#"
+      },
+      {
+        text: "Almond Peak",
+        href: "#"
+      },
+    ]
+  },
+  {
     type: "link",
     text: "Our Story",
     href: "#"
