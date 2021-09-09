@@ -179,6 +179,7 @@ export default class MenuBar {
     const dropDownArrow = document.createElement("i");
 
     this.#addClassesToElement(dropDownContainer, classNames, "menubar-dropdown");
+    dropDownLabel.classList.add("dropdown-label");
     dropDownLinks.classList.add("dropdown-links", "collapsed");
     dropDownArrow.classList.add("arrow", "down");
 
@@ -198,7 +199,8 @@ export default class MenuBar {
     dropDownLabel.append(dropDownArrow);
     dropDownContainer.append(dropDownLabel, dropDownLinks);
 
-    dropDownContainer.addEventListener("click", (e) => this.#toggleDropdown.call(this, e));
+    dropDownLabel.addEventListener("click",
+        (e) => this.#toggleDropdown.call(this, e));
 
     this.#clickables.push(dropDownContainer);
   }
@@ -227,18 +229,24 @@ export default class MenuBar {
    * and then use it to find the dropdown links.
    */
   #toggleDropdown(e) {
+    
+    let dropdownRoot = e.currentTarget;
+    while(!dropdownRoot.matches(".menubar-dropdown")) {
+      dropdownRoot = dropdownRoot.parentNode;
+    }
+
     if (!this.mobileBreakpointListener.matches) {
       const activeDropdown = document.querySelector(".menubar-dropdown.active");
-      if (activeDropdown !== null && !activeDropdown.contains(e.currentTarget)) {
+      if (activeDropdown !== null && !activeDropdown.contains(dropdownRoot)) {
         MenuBar.closeActiveDropdown();
       }
     }
 
-    const dropdown = e.currentTarget.querySelector("ul");
-    const dropdownArrow = e.currentTarget.querySelector(".arrow");
+    const dropdownList = dropdownRoot.querySelector("ul");
+    const dropdownArrow = dropdownRoot.querySelector(".arrow");
     
-    e.currentTarget.classList.toggle("active");
-    dropdown.classList.toggle("collapsed");
+    dropdownRoot.classList.toggle("active");
+    dropdownList.classList.toggle("collapsed");
 
     dropdownArrow.classList.toggle("down");
     dropdownArrow.classList.toggle("up");
