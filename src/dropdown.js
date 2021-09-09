@@ -125,13 +125,30 @@ export default class MenuBar {
     dropDownContainer.append(dropDownLabel, dropDownLinks);
 
     dropDownContainer.addEventListener("click", this.#toggleDropdown);
-    window.addEventListener("click", (e) => {
-      if (!e.target.matches(".menubar-dropdown, .menubar-dropdown *")) {
-        document.querySelector(".dropdown-links").classList.add("collapsed");
-      }
-    });
+    
+    window.onclick = this.#closeDropdown;
 
     this.#clickables.push(dropDownContainer);
+  }
+
+  /**
+   * Used for closing any active dropdowns if they're active and the user clicks 
+   * any area outside of it on the window.
+   * @param {*} e 
+   */
+  #closeDropdown(e) {
+    // If the user clicks anywhere that isn't the current active dropdown...
+    if (!e.target.matches(".menubar-dropdown.active, .menubar-dropdown.active *")) {
+      const activeDropdownBtn = document.querySelector(".menubar-dropdown.active");
+      const activeDropdown = activeDropdownBtn.querySelector(".dropdown-links");
+      const activeArrow = activeDropdownBtn.querySelector(".arrow");
+      
+      // collapse it.
+      activeDropdownBtn.classList.remove("active");
+      activeDropdown.classList.add("collapsed");
+      activeArrow.classList.remove("up");
+      activeArrow.classList.add("down");
+    }
   }
 
   /**
@@ -143,8 +160,11 @@ export default class MenuBar {
   #toggleDropdown(e) {
     const dropdown = e.currentTarget.querySelector("ul");
     const dropdownArrow = e.currentTarget.querySelector(".arrow");
+    
+    e.currentTarget.classList.toggle("active");
     dropdown.classList.toggle("collapsed");
 
+    dropdownArrow.classList.toggle("down");
     dropdownArrow.classList.toggle("up");
   }
 
