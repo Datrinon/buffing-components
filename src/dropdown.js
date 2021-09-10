@@ -95,7 +95,7 @@ export default class MenuBar {
     this.mobileBreakpointListener.addEventListener("change", (e) => {
       // if the width of the screen is 860px or below...:
       if (e.matches) {
-        console.log("mobile breakpoint active, Dan hide menu when clicked off...");
+        console.log("mobile breakpoint active, hide menu when clicked off...");
         window.onclick = null;
         document.querySelector(".navigation").classList.add("collapsed");
       } else {

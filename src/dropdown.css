@@ -165,16 +165,20 @@
     grid-area: menu;
     top: 100%;
     width: 100vw;
+    max-height: fit-content;
+    animation: popIn 1s;
   }
 
   .dropdown-links {
     position: revert;
     border: revert;
+    animation: popIn 1s;
   }
   
   .menubar-dropdown-link {
     border-bottom: 1px solid grey;
   }
+
 }
 
 .collapsed {
