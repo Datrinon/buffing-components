@@ -1,6 +1,6 @@
-const base = "images/";
+const IMAGE_FILEPATH = "images/";
 
-const SLIDER_PICS = [
+const sliderPics = [
   {
     path: "butte.jpg",
     title: "Butte",
@@ -28,4 +28,4 @@ const SLIDER_PICS = [
   }
 ];
 
-export { base, SLIDER_PICS };
+export { IMAGE_FILEPATH, sliderPics };

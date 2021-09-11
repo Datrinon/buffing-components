@@ -134,7 +134,8 @@ export default class Slider {
 }
 
 /**
- * TODO. Lazy load images using "loading="lazy"".
+ * TODO.
+ * 0. Lazy load images using "loading="lazy"".
  * 1. Create a .js file with exports to images, use project-restaurant's
  * function to get the paths dynamically.
  */
