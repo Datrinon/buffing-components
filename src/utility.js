@@ -9,16 +9,18 @@ export default class Utility {
    * more about the parameter.
    * 
    * @param r - require.context() function, used for importing all files in
-   * a directory matching a pattern.
+   * a directory matching a pattern. Ex:
+   * require.context("./images", false, /\.(png|jpe?g|svg)$/). Leave blank to use this.
    * @returns - An object containing all the images matching the require context,
    * the original filename (w/ extension) being the key referencing the image.
    */
-  static importAll(r) {
+  // eslint-disable-next-line no-undef
+  static importAllImages(r = require.context("./images", false, /\.(png|jpe?g|svg)$/)) {
     let images = {};
     r.keys().map((item) => { images[item.replace('./', '')] = r(item); });
     return images;
   }
-  
+
   /**
    * A helper method which adds classes to a given element.
    * @param {HTMLElement} elem - The element to append classes to.

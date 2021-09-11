@@ -37,26 +37,40 @@ export default class Slider {
   #currentPicIndex;
 
   /**
-   * Create a slider.
+   * Create a slider. There are three components that will be generated. 1) the
+   * container, 2) the frame where pictures are displayed, and 3) the controls.
    * 
    * @param {{path: string, title: string, caption : string}[]} pictures 
    * @param {number} duration 
    */
   constructor(pictures, duration) {
+    this.#pictures = pictures;
+    this.#duration = duration;
+    this.#isPaused = false;
+    this.#currentPicIndex = 0;
+    
     this.#slider = document.createElement("div");
     this.#addClassesToElement(this.slider, "slider");
 
     this.#frame = document.createElement("figure");
     this.#addClassesToElement(this.#frame, "slider-img-frame");
 
-    this.#pictures = pictures;
-    this.#duration = duration;
-    this.#isPaused = false;
-    this.#currentPicIndex = 0;
 
     this.#controls = document.createElement("section");
     this.#addClassesToElement(this.#controls, "slider-controls");
+
+    const img = document.createElement("img");
+    const figCaption = document.createElement("figcaption");
+    const figCaptionTitle = document.createElement("p");
+    const figCaptionText = document.createElement("p");
     
+    this.#addClassesToElement(img, "image");
+    this.#addClassesToElement(figCaptionTitle, "caption-title");
+    this.#addClassesToElement(figCaptionText, "caption-text");
+    
+    figCaption.append(figCaptionTitle, figCaptionText);
+    this.#frame.append(img, figCaption);
+
     this.#slider.append(this.#frame, this.#controls);
   }
 
@@ -85,23 +99,17 @@ export default class Slider {
    */
   playSlideshow() {
     const self = this;
+
+    const img = self.#frame.querySelector(".image");
+    const figCaptionTitle = self.#frame.querySelector(".caption-title");
+    const figCaptionText = self.#frame.querySelector(".caption-text");
+
     const loadImage = () => {
       const picRef = self.#pictures[self.#currentPicIndex];
-      const img = document.createElement("img");
-      const figCaption = document.createElement("figcaption");
-      const figCaptionTitle = document.createElement("p");
-      const figCaptionText = document.createElement("p");
-      
-      self.#addClassesToElement(img, "image");
-      self.#addClassesToElement(figCaptionTitle, "caption-title");
-      self.#addClassesToElement(figCaptionText, "caption-text");
 
       img.src = picRef.path;
       figCaptionTitle.textContent = picRef.title;
       figCaptionText.textContent = picRef.caption;
-
-      figCaption.append(figCaptionTitle, figCaptionText);
-      self.#frame.append(img, figCaption);
 
       if (self.#currentPicIndex < (self.#pictures.length - 1)) {
         self.#currentPicIndex += 1;
@@ -109,11 +117,17 @@ export default class Slider {
         self.#currentPicIndex = 0;
       }
     };
+
+    // play the slideshow once.
+    loadImage();
+
+    // play it once every X seconds thereafter.
     setInterval(() => {
       if (!self.#isPaused) {
         loadImage();
       }
     }, this.#duration * 1000);
+
   }
 
   /**
@@ -128,8 +142,8 @@ export default class Slider {
    * Load and play the slideshow for a given slider.
    * @param {Slider} slider - A slider.
    */
-  static loadSlideshow(slider) {
-    window.addEventListener("load", slider.playSlideshow);
+  static playSlideshowOnWindowLoad(slider) {
+    window.addEventListener("load", slider.playSlideshow.call(slider));
   }
 }
 
