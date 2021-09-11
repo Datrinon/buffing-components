@@ -131,8 +131,12 @@ export default class Slider {
     this.#pictures.forEach((pic, index) => {
       const dot = document.createElement("button");
       this.#addClassesToElement(dot, "dot-index");
-      //TODO
-      // Dot has an event listener for click to transition the current slide pic.
+      
+      dot.addEventListener("click", () => {
+        this.#loadImage.call(this, index);
+        this.#currentPicIndex = index;
+      });
+
       dotControls.append(dot);
     });
   }
