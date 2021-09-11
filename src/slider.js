@@ -112,6 +112,8 @@ export default class Slider {
     this.#controls.append(prev, next, dotControls, toggle);
     this.#displayClickableDots();
 
+    prev.addEventListener("click", () => this.#reverseSlider.call(this));
+    next.addEventListener("click", () => this.#advanceSlider.call(this));
   }
 
   /**
@@ -128,6 +130,7 @@ export default class Slider {
 
     this.#pictures.forEach((pic, index) => {
       const dot = document.createElement("button");
+      this.#addClassesToElement(dot, "dot-index");
       //TODO
       // Dot has an event listener for click to transition the current slide pic.
       dotControls.append(dot);
@@ -135,7 +138,8 @@ export default class Slider {
   }
 
   /**
-   * Loads an image based on a given index.
+   * Loads an image based on a given index, and then highlights the corresponding
+   * dot.
    */
   #loadImage(index) {
     const img = this.#frame.querySelector(".image");
@@ -147,7 +151,35 @@ export default class Slider {
     figCaptionTitle.textContent = picRef.title;
     figCaptionText.textContent = picRef.caption;
 
+    const prevImgDot = this.#controls.querySelector(`.dot-index.current-dot`);
+    if (prevImgDot !== null) {
+      prevImgDot.classList.remove("current-dot");
+    } 
 
+    this.#controls
+        .querySelector(`.dot-index:nth-child(${index+1})`)
+        .classList.add("current-dot");
+  }
+
+  #advanceSlider() {
+    if (this.#currentPicIndex < (this.#pictures.length - 1)) {
+      this.#currentPicIndex += 1;
+    } else {
+      this.#currentPicIndex = 0;
+    }
+
+    this.#loadImage(this.#currentPicIndex);
+  }
+
+  #reverseSlider() {
+    if (this.#currentPicIndex > 0) {
+      this.#currentPicIndex -= 1;
+    } else {
+      this.#currentPicIndex = this.#pictures.length - 1;
+    }
+
+    console.log(this.#currentPicIndex);
+    this.#loadImage(this.#currentPicIndex);
   }
 
   /**
@@ -157,15 +189,8 @@ export default class Slider {
   playSlideshow() {
     let self = this;
 
-    const advanceSlider = () => {
-      if (self.#currentPicIndex < (self.#pictures.length - 1)) {
-        self.#currentPicIndex += 1;
-      } else {
-        self.#currentPicIndex = 0;
-      }
-
-      self.#loadImage(self.#currentPicIndex);
-    }
+      // self.#loadImage(self.#currentPicIndex);
+    
 
     // // play it once every X seconds thereafter.
     // setInterval(() => {
