@@ -72,6 +72,8 @@ export default class Slider {
     this.#frame.append(img, figCaption);
 
     this.#slider.append(this.#frame, this.#controls);
+
+    this.#loadImage(this.#currentPicIndex);
   }
 
   /**
@@ -100,14 +102,14 @@ export default class Slider {
     const prev = document.createElement("i");
     const next = document.createElement("i");
     const dotControls = document.createElement("div");
-    const pause = document.createElement("button");
+    const toggle = document.createElement("button");
     
     this.#addClassesToElement(prev, "slider-arrow", "left");
     this.#addClassesToElement(next, "slider-arrow", "right");
     this.#addClassesToElement(dotControls, "dot-controls");
-    this.#addClassesToElement(pause, "slider-pause");
+    this.#addClassesToElement(toggle, "slider-toggle", "pause");
 
-    this.#controls.append(prev, next, dotControls, pause);
+    this.#controls.append(prev, next, dotControls, toggle);
     this.#displayClickableDots();
 
   }
@@ -133,32 +135,37 @@ export default class Slider {
   }
 
   /**
+   * Loads an image based on a given index.
+   */
+  #loadImage(index) {
+    const img = this.#frame.querySelector(".image");
+    const figCaptionTitle = this.#frame.querySelector(".caption-title");
+    const figCaptionText = this.#frame.querySelector(".caption-text");
+    const picRef = this.#pictures[index];
+
+    img.src = picRef.path;
+    figCaptionTitle.textContent = picRef.title;
+    figCaptionText.textContent = picRef.caption;
+
+
+  }
+
+  /**
    * Play the slideshow.
    * 
    */
   playSlideshow() {
-    const self = this;
+    let self = this;
 
-    const img = self.#frame.querySelector(".image");
-    const figCaptionTitle = self.#frame.querySelector(".caption-title");
-    const figCaptionText = self.#frame.querySelector(".caption-text");
-
-    const loadImage = () => {
-      const picRef = self.#pictures[self.#currentPicIndex];
-
-      img.src = picRef.path;
-      figCaptionTitle.textContent = picRef.title;
-      figCaptionText.textContent = picRef.caption;
-
+    const advanceSlider = () => {
       if (self.#currentPicIndex < (self.#pictures.length - 1)) {
         self.#currentPicIndex += 1;
       } else {
         self.#currentPicIndex = 0;
       }
-    };
 
-    // play the slideshow once.
-    loadImage();
+      self.#loadImage(self.#currentPicIndex);
+    }
 
     // // play it once every X seconds thereafter.
     // setInterval(() => {

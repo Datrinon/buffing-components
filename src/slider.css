@@ -21,16 +21,15 @@
 .slider-img-frame figcaption {
   position: absolute;
   bottom: 25px;
-  text-align: center;
-  left: 25%;
-  right: 25%;
+  left: 25px;
   color: white;
+  text-shadow: 1px 1px BLACK;
+
 }
 
 .caption-title {
   font-weight: bold;
   font-size: 150%;
-  text-shadow: 2px 2px BLACK;
 }
 
 .slider-controls {
@@ -47,7 +46,7 @@
   "dots pause"
   ;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 80% 20%;
+  grid-template-rows: 95% 5%;
 }
 
 .slider-arrow {
@@ -74,28 +73,32 @@
   justify-self: end;
 }
 
-.slider-pause {
+.slider-toggle {
   grid-area: pause;
   justify-self: start;
-  align-self: end;
+  align-self: center;
+  position: relative;
+  left: 25px;
+}
+
+.pause {
   width: 0;
   height: 20px;
   border-width: 0px 5px 0px 5px;
-  border-color: red;
+  border-color: white;
   border-style: solid;
   background-color: transparent;
   box-sizing: border-box;
   padding: 0 5px 0 0;
-}
 
-.pause {}
+}
 
 .play {
   width: 0px;
   height: 0px;
   border-style: solid;
   border-width: 12px 12px 12px 12px;
-  border-color: transparent transparent transparent red;
+  border-color: transparent transparent transparent white;
   background-color: transparent;
   box-sizing: border-box;
   padding: 0;
@@ -114,5 +117,7 @@
 .dot-controls {
   grid-area: dots;
   justify-self: end;
-  align-self: end;
+  align-self: baseline;
+  position: relative;
+
 }
