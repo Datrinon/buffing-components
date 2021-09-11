@@ -158,7 +158,6 @@ export default class MenuBar {
     if (icon !== null) {
       const iconElem = document.createElement("img");
       iconElem.setAttribute("src", icon);
-      console.log(icon);
       logo.append(iconElem);
     }
 

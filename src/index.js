@@ -43,7 +43,7 @@ const loadGenericBody = () => {
     pic.path = images[pic.path];
   });
 
-  console.log(JSON.stringify(sliderPics));
+  // console.log(JSON.stringify(sliderPics));
 
   const nationalParkSlider = new Slider(sliderPics, 3);
   

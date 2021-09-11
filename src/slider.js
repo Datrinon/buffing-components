@@ -54,10 +54,10 @@ export default class Slider {
 
     this.#frame = document.createElement("figure");
     this.#addClassesToElement(this.#frame, "slider-img-frame");
-
-
+    
     this.#controls = document.createElement("section");
     this.#addClassesToElement(this.#controls, "slider-controls");
+    this.#addControlsToSlider();
 
     const img = document.createElement("img");
     const figCaption = document.createElement("figcaption");
@@ -80,17 +80,56 @@ export default class Slider {
    * @param {string} defaultClass - The classname that said element should always have.
    * @param {string[]} classNames - The classnames to give the element (optional).
    * */ 
-  #addClassesToElement(elem, defaultClass, classNames = []) {
+  #addClassesToElement(elem, defaultClass, ...classNames) {
     classNames.push(defaultClass);
-    elem.classList.add(classNames);
+    elem.classList.add(...classNames);
   }
 
   set pictures(pictures){
     this.#pictures = pictures;
+    // TODO
+    // Test and make sure this
+    this.#displayClickableDots();
   }
 
   set duration(seconds) {
     this.#duration = seconds;
+  }
+
+  #addControlsToSlider() {
+    const prev = document.createElement("i");
+    const next = document.createElement("i");
+    const dotControls = document.createElement("div");
+    const pause = document.createElement("button");
+    
+    this.#addClassesToElement(prev, "slider-arrow", "left");
+    this.#addClassesToElement(next, "slider-arrow", "right");
+    this.#addClassesToElement(dotControls, "dot-controls");
+    this.#addClassesToElement(pause, "slider-pause");
+
+    this.#controls.append(prev, next, dotControls, pause);
+    this.#displayClickableDots();
+
+  }
+
+  /**
+   * Displays clickable dots on the control section of the slider.
+   */
+  #displayClickableDots() {
+
+    const dotControls = this.#controls.querySelector(".dot-controls");
+
+    // remove any existing dots. needed if pictures gets changed later.
+    while(dotControls.firstChild){
+      dotControls.removeChild(dotControls.firstChild);
+    }
+
+    this.#pictures.forEach((pic, index) => {
+      const dot = document.createElement("button");
+      //TODO
+      // Dot has an event listener for click to transition the current slide pic.
+      dotControls.append(dot);
+    });
   }
 
   /**

@@ -27,8 +27,9 @@ export default class Utility {
    * @param {string} defaultClass - The classname that said element should always have.
    * @param {string[]} classNames - The classnames to give the element (optional).
    * */ 
-  static addClassesToElement(elem, defaultClass, classNames = []) {
+  static addClassesToElement(elem, defaultClass, ...classNames) {
       classNames.push(defaultClass);
-      elem.classList.add(classNames);
+      elem.classList.add(...classNames);
+      // passing in arrays to a varargs
   }
 }
