@@ -4,6 +4,7 @@ import SAMPLE_TEXT from './lorem.txt';
 import './reset.css';
 import './index.css';
 import './dropdown.css';
+import './slider.css';
 
 // js imports
 import Utility from './utility';

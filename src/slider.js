@@ -121,12 +121,12 @@ export default class Slider {
     // play the slideshow once.
     loadImage();
 
-    // play it once every X seconds thereafter.
-    setInterval(() => {
-      if (!self.#isPaused) {
-        loadImage();
-      }
-    }, this.#duration * 1000);
+    // // play it once every X seconds thereafter.
+    // setInterval(() => {
+    //   if (!self.#isPaused) {
+    //     loadImage();
+    //   }
+    // }, this.#duration * 1000);
 
   }
 
