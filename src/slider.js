@@ -116,6 +116,10 @@ export default class Slider {
     next.addEventListener("click", () => this.#advanceSlider.call(this));
   }
 
+  #pauseSlideshow() {
+    
+  }
+
   /**
    * Displays clickable dots on the control section of the slider.
    */
@@ -187,30 +191,22 @@ export default class Slider {
   }
 
   /**
-   * Play the slideshow.
-   * 
-   */
-  playSlideshow() {
-    let self = this;
-
-      // self.#loadImage(self.#currentPicIndex);
-    
-
-    // // play it once every X seconds thereafter.
-    // setInterval(() => {
-    //   if (!self.#isPaused) {
-    //     loadImage();
-    //   }
-    // }, this.#duration * 1000);
-
-  }
-
-  /**
    * Get a read-only Element reference to the slider. For appending to elements.
    * @returns {HTMLElement}
    */
   get slider() {
     return this.#slider;
+  }
+
+  playSlideshow() {
+    let self = this;
+  
+    // play it once every X seconds thereafter.
+    setInterval(() => {
+      if (!self.#isPaused) {
+        self.#advanceSlider();
+      }
+    }, this.#duration * 1000);
   }
 
   /**
