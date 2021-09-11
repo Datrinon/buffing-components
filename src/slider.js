@@ -114,11 +114,15 @@ export default class Slider {
 
     prev.addEventListener("click", () => this.#reverseSlider.call(this));
     next.addEventListener("click", () => this.#advanceSlider.call(this));
+    toggle.addEventListener("click", () => this.#pauseSlideshow.call(this));
   }
 
   #pauseSlideshow() {
-    
-  }
+    this.#isPaused = !this.#isPaused;
+
+    this.#controls.querySelector(".slider-toggle").classList.toggle("pause");
+    this.#controls.querySelector(".slider-toggle").classList.toggle("play");
+  } 
 
   /**
    * Displays clickable dots on the control section of the slider.
