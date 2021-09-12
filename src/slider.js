@@ -141,6 +141,11 @@ export default class Slider {
       this.#addClassesToElement(dot, "dot-index");
       
       dot.addEventListener("click", () => {
+        if (index === this.#currentPicIndex) {
+          console.log("terminandose...");
+          return;
+        }
+        
         this.#loadImage.call(this, index);
         this.#currentPicIndex = index;
       });
@@ -154,10 +159,22 @@ export default class Slider {
    * dot.
    */
   #loadImage(index) {
+
     const img = this.#frame.querySelector(".image");
     const figCaptionTitle = this.#frame.querySelector(".caption-title");
     const figCaptionText = this.#frame.querySelector(".caption-text");
     const picRef = this.#pictures[index];
+
+    this.#frame.querySelector("figcaption").classList.add("disappear-appear");
+    this.#frame
+        .querySelector("figcaption")
+        .addEventListener("animationend",(e) => {
+            e.currentTarget.classList.remove("disappear-appear")
+          });
+    
+    img.classList.add("disappear-appear");
+    img.addEventListener("animationend",
+        (e) => e.currentTarget.classList.remove("disappear-appear"));
 
     img.src = picRef.path;
     figCaptionTitle.textContent = picRef.title;
@@ -174,12 +191,14 @@ export default class Slider {
   }
 
   #advanceSlider() {
+    const img = this.#frame.querySelector(".image");
+
     if (this.#currentPicIndex < (this.#pictures.length - 1)) {
       this.#currentPicIndex += 1;
     } else {
       this.#currentPicIndex = 0;
     }
-
+    
     this.#loadImage(this.#currentPicIndex);
   }
 

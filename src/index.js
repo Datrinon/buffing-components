@@ -45,7 +45,7 @@ const loadGenericBody = () => {
 
   // console.log(JSON.stringify(sliderPics));
 
-  const nationalParkSlider = new Slider(sliderPics, 3);
+  const nationalParkSlider = new Slider(sliderPics, 6);
   
   document.body.append(nationalParkSlider.slider);
 
