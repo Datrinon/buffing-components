@@ -32,4 +32,36 @@ export default class Utility {
       elem.classList.add(...classNames);
       // passing in arrays to a varargs
   }
+
+  /**
+   * For a given element, add an animation but only play it once. Afterwards,
+   * unload the animation. This allows you to add the class to it again to 
+   * play the animation; this is useful when associated with event triggers.
+   * @param {HTMLElement} elem - An element to apply the animation to.
+   * @param {string} animationName - A CSS class associated with an animation.
+   */
+  static triggerAnimation(elem, animationName) {
+    elem.classList.add(animationName);
+
+    elem.onanimationend = () => {elem.classList.remove(animationName)};
+  }
+
+  /**
+   * Recursively scale the tree of a child node until the parent matching the given
+   * selector is found. Returns NULL if no matching parent is found.
+   * @param {HTMLElement} elem - A child node.
+   * @param {string} selector - CSS Selector String.
+   * 
+   * @returns {HTMLelement} - Parent of elem.
+   */
+  static getMatchingParent(elem, selector) {
+    while(!elem.parentNode.matches(selector)) {
+      elem = elem.parentNode;
+      if (elem.matches("html")) {
+        return null;
+      }
+    }
+    return elem;
+  }
+
 }

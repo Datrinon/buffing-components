@@ -1,3 +1,5 @@
+import Utility from "./utility";
+
 export default class Slider {
   
   /**
@@ -24,17 +26,19 @@ export default class Slider {
    * @type {boolean}
    */
   #isPaused;
-  
   /**
    * A reference to the controls container.
    */
   #controls;
-
   /**
    * Index of the current picture the slideshow is on.
    * @type {number}
    */
   #currentPicIndex;
+  /**
+   * Index of the previous picture that was played.
+   */
+  #previousPicIndex;
 
   /**
    * Create a slider. There are three components that will be generated. 1) the
@@ -48,6 +52,7 @@ export default class Slider {
     this.#duration = duration;
     this.#isPaused = false;
     this.#currentPicIndex = 0;
+    this.#previousPicIndex = 0;
     
     this.#slider = document.createElement("div");
     this.#addClassesToElement(this.slider, "slider");
@@ -60,16 +65,18 @@ export default class Slider {
     this.#addControlsToSlider();
 
     const img = document.createElement("img");
+    const prevImg = document.createElement("img");
     const figCaption = document.createElement("figcaption");
     const figCaptionTitle = document.createElement("p");
     const figCaptionText = document.createElement("p");
     
     this.#addClassesToElement(img, "image");
+    this.#addClassesToElement(prevImg, "previous-image");
     this.#addClassesToElement(figCaptionTitle, "caption-title");
     this.#addClassesToElement(figCaptionText, "caption-text");
     
     figCaption.append(figCaptionTitle, figCaptionText);
-    this.#frame.append(img, figCaption);
+    this.#frame.append(prevImg, img, figCaption);
 
     this.#slider.append(this.#frame, this.#controls);
 
@@ -142,9 +149,10 @@ export default class Slider {
       
       dot.addEventListener("click", () => {
         if (index === this.#currentPicIndex) {
-          console.log("terminandose...");
           return;
         }
+
+        this.#previousPicIndex = this.#currentPicIndex;
         
         this.#loadImage.call(this, index);
         this.#currentPicIndex = index;
@@ -159,23 +167,19 @@ export default class Slider {
    * dot.
    */
   #loadImage(index) {
-
     const img = this.#frame.querySelector(".image");
     const figCaptionTitle = this.#frame.querySelector(".caption-title");
     const figCaptionText = this.#frame.querySelector(".caption-text");
+    const prevImg = this.#frame.querySelector(".previous-image");
+
     const picRef = this.#pictures[index];
+    const prevPicRef = this.#pictures[this.#previousPicIndex];
 
-    this.#frame.querySelector("figcaption").classList.add("disappear-appear");
-    this.#frame
-        .querySelector("figcaption")
-        .addEventListener("animationend",(e) => {
-            e.currentTarget.classList.remove("disappear-appear")
-          });
+    prevImg.src = prevPicRef.path;
+
+    Utility.triggerAnimation(figCaptionText.parentNode, "disappear-appear");
+    Utility.triggerAnimation(img, "disappear-appear");
     
-    img.classList.add("disappear-appear");
-    img.addEventListener("animationend",
-        (e) => e.currentTarget.classList.remove("disappear-appear"));
-
     img.src = picRef.path;
     figCaptionTitle.textContent = picRef.title;
     figCaptionText.textContent = picRef.caption;
@@ -191,7 +195,7 @@ export default class Slider {
   }
 
   #advanceSlider() {
-    const img = this.#frame.querySelector(".image");
+    this.#previousPicIndex = this.#currentPicIndex;
 
     if (this.#currentPicIndex < (this.#pictures.length - 1)) {
       this.#currentPicIndex += 1;
@@ -203,6 +207,8 @@ export default class Slider {
   }
 
   #reverseSlider() {
+    this.#previousPicIndex = this.#currentPicIndex;
+
     if (this.#currentPicIndex > 0) {
       this.#currentPicIndex -= 1;
     } else {
@@ -240,10 +246,3 @@ export default class Slider {
     window.addEventListener("load", slider.playSlideshow.call(slider));
   }
 }
-
-/**
- * TODO.
- * 0. Lazy load images using "loading="lazy"".
- * 1. Create a .js file with exports to images, use project-restaurant's
- * function to get the paths dynamically.
- */
