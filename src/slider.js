@@ -178,7 +178,7 @@ export default class Slider {
     prevImg.src = prevPicRef.path;
 
     Utility.triggerAnimation(figCaptionText.parentNode, "disappear-appear");
-    Utility.triggerAnimation(img, "disappear-appear");
+    Utility.triggerAnimation(img, "slide-transition");
     
     img.src = picRef.path;
     figCaptionTitle.textContent = picRef.title;
